@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minecraft Color Code Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f0f0f0;
+      color: #333;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      text-align: center;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      margin-bottom: 10px;
+      font-size: 16px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .colors button, .styles button {
+      margin: 5px;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .output {
+      margin-top: 20px;
+      padding: 10px;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+      text-align: left;
+      white-space: pre-wrap;
+    }
+
+    .colors button {
+      color: #fff;
+    }
+
+    .colors button[data-code="§f"] {
+      color: #000;
+    }
+
+    .gradient-section {
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .gradient-section input {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .gradient-section button {
+      background-color: #007BFF;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Minecraft Color Code Tool</h1>
+    <textarea id="input-text" placeholder="Type your text here..."></textarea>
+    <div class="colors">
+      <button data-code="§4" style="background-color: #AA0000;">Dark Red</button>
+      <button data-code="§c" style="background-color: #FF5555;">Red</button>
+      <button data-code="§6" style="background-color: #FFAA00;">Gold</button>
+      <button data-code="§e" style="background-color: #FFFF55;">Yellow</button>
+      <button data-code="§2" style="background-color: #00AA00;">Dark Green</button>
+      <button data-code="§a" style="background-color: #55FF55;">Green</button>
+      <button data-code="§b" style="background-color: #55FFFF;">Aqua</button>
+      <button data-code="§3" style="background-color: #005555;">Dark Aqua</button>
+      <button data-code="§1" style="background-color: #0000AA;">Dark Blue</button>
+      <button data-code="§9" style="background-color: #5555FF;">Blue</button>
+      <button data-code="§d" style="background-color: #FF55FF;">Light Purple</button>
+      <button data-code="§5" style="background-color: #AA00AA;">Dark Purple</button>
+      <button data-code="§f" style="background-color: #FFFFFF; color: #000;">White</button>
+      <button data-code="§7" style="background-color: #AAAAAA;">Gray</button>
+      <button data-code="§8" style="background-color: #555555;">Dark Gray</button>
+      <button data-code="§0" style="background-color: #000000;">Black</button>
+      <button data-code="§r" style="background-color: #CCCCCC;">Reset</button>
+    </div>
+    <div class="styles">
+      <button data-code="§l"><strong>B</strong></button>
+      <button data-code="§o"><em>I</em></button>
+      <button data-code="§n"><u>U</u></button>
+      <button data-code="§m"><s>S</s></button>
+    </div>
+    <div class="gradient-section">
+      <h2>Create Gradient</h2>
+      <input id="gradient-text" type="text" placeholder="Enter text for gradient...">
+      <select id="gradient-start">
+        <option value="#AA0000">Dark Red</option>
+        <option value="#FF5555">Red</option>
+        <option value="#FFAA00">Gold</option>
+        <option value="#FFFF55">Yellow</option>
+        <option value="#00AA00">Dark Green</option>
+        <option value="#55FF55">Green</option>
+        <option value="#55FFFF">Aqua</option>
+        <option value="#005555">Dark Aqua</option>
+        <option value="#0000AA">Dark Blue</option>
+        <option value="#5555FF">Blue</option>
+        <option value="#FF55FF">Light Purple</option>
+        <option value="#AA00AA">Dark Purple</option>
+        <option value="#FFFFFF">White</option>
+        <option value="#AAAAAA">Gray</option>
+        <option value="#555555">Dark Gray</option>
+        <option value="#000000">Black</option>
+      </select>
+      <select id="gradient-end">
+        <option value="#AA0000">Dark Red</option>
+        <option value="#FF5555">Red</option>
+        <option value="#FFAA00">Gold</option>
+        <option value="#FFFF55">Yellow</option>
+        <option value="#00AA00">Dark Green</option>
+        <option value="#55FF55">Green</option>
+        <option value="#55FFFF">Aqua</option>
+        <option value="#005555">Dark Aqua</option>
+        <option value="#0000AA">Dark Blue</option>
+        <option value="#5555FF">Blue</option>
+        <option value="#FF55FF">Light Purple</option>
+        <option value="#AA00AA">Dark Purple</option>
+        <option value="#FFFFFF">White</option>
+        <option value="#AAAAAA">Gray</option>
+        <option value="#555555">Dark Gray</option>
+        <option value="#000000">Black</option>
+      </select>
+      <button id="apply-gradient">Apply Gradient</button>
+    </div>
+    <div class="output">
+      <h2>Formatted Text:</h2>
+      <div id="output"></div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const inputText = document.getElementById("input-text");
+      const output = document.getElementById("output");
+      const gradientText = document.getElementById("gradient-text");
+      const gradientStart = document.getElementById("gradient-start");
+      const gradientEnd = document.getElementById("gradient-end");
+      const applyGradient = document.getElementById("apply-gradient");
+
+      applyGradient.addEventListener("click", () => {
+        const text = gradientText.value;
+        const startColor = gradientStart.value;
+        const endColor = gradientEnd.value;
+
+        if (text) {
+          const gradientHTML = applyGradientEffect(text, startColor, endColor);
+          output.innerHTML = gradientHTML;
+        }
+      });
+
+      function applyGradientEffect(text, startColor, endColor) {
+        const length = text.length;
+        const startRGB = hexToRgb(startColor);
+        const endRGB = hexToRgb(endColor);
+        let gradientHTML = "";
+
+        for (let i = 0; i < length; i++) {
+          const ratio = i / (length - 1);
+          const r = Math.round(startRGB.r + ratio * (endRGB.r - startRGB.r));
+          const g = Math.round(startRGB.g + ratio * (endRGB.g - startRGB.g));
+          const b = Math.round(startRGB.b + ratio * (endRGB.b - startRGB.b));
+          const color = `rgb(${r},${g},${b})`;
+          gradientHTML += `<span style="color: ${color};">${text[i]}</span>`;
+        }
+        return gradientHTML;
+      }
+
+      function hexToRgb(hex) {
+        const bigint = parseInt(hex.slice(1), 16);
+        return {
+          r: (bigint >> 16) & 255,
+          g: (bigint >> 8) & 255,
+          b: bigint & 255,
+        };
+      }
+    });
+  </script>
+</body>
+</html>
